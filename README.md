@@ -5,6 +5,20 @@
 **Use at your own risk! This project has the potential to delete data. Please ensure that you have proper backups and take necessary precautions before running any commands. The author and contributors of this project are not responsible for any data loss or damage caused by the usage of this software.**
 
 
+## Desciption
+This Python script, is designed to manage media content in a media center. It interacts with various APIs such as Tautulli and Overseerr to fetch, process, and delete media content based on the amount of days passed since the first request and the last activity on it before deletion.
+
+This was made to manage a stack like the one that I have built [here](https://github.com/Rick45/quick-arr-Stack).
+
+## Requirements
+1. Overseer - Get the media requests from the users
+2. Tautulli - Used to check the activity history for the media in the Overseerr requests
+3. Sonarr - Used to delete the requested Shows media
+4. Radarr - Used to delete the requested Movies media
+
+
+
+
 ## Configuration
 
 The `config.json.example` file contains the following settings:
@@ -37,22 +51,20 @@ The `config.json.example` file contains the following settings:
 
 ### Run Using Docker:
 
-Update the crontab file with the disired interval for checking the Media
+1. Update the crontab file with the disired interval for checking the Media
 the current configuration will check every dau at midnight:
     
-```bash
-0 0 * * * /usr/local/bin/python3 /app/mediacenterManager.py > /proc/1/fd/1 2>/proc/1/fd/2 
-```
+    ```bash
+    0 0 * * * /usr/local/bin/python3 /app/mediacenterManager.py > /proc/1/fd/1 2>/proc/1/fd/2 
+    ```
 
-Then to build and run the container execut the following commands
-
-1. Build the Docker image:
+2. Build the Docker image:
 
     ```bash
     docker build -t arr_stack_manager .
     ```
 
-2. Run the Docker container:
+3. Run the Docker container:
 
     ```bash
     docker run -d --name arr_stack_manager arr_stack_manager
