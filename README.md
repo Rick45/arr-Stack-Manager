@@ -51,8 +51,8 @@ The `config.json.example` file contains the following settings:
 
 ### Run Using Docker:
 
-1. Update the crontab file with the disired interval for checking the Media
-the current configuration will check every dau at midnight:
+1. Update the crontab file with the desired interval for checking the Media
+the current configuration will check every day at midnight:
     
     ```bash
     0 0 * * * /usr/local/bin/python3 /app/mediacenterManager.py > /proc/1/fd/1 2>/proc/1/fd/2 
