@@ -1,0 +1,15 @@
+{
+    "TESTING_MODE": 1,
+    "USERS_TO_IGNORE": ["user1", "user2", "user3"],
+    "NUMBER_OF_DAYS": 45,
+    "NUMBER_OF_DAYS_IF_ONLY_REQUESTER": 15,
+    "WEBHOOK": "https://...",
+    "OVERSEER_BASEURL": "https://...",
+    "OVERSEER_TOKEN": "MTcw...",
+    "RADARR_BASEURL": "https://...",
+    "RADARR_APIKEY": "97e5...",
+    "TAUTULLI_BASEURL": "https://...",
+    "TAUTULLI_APIKEY": "d6fd...",
+    "SONARR_BASEURL": "https://...",
+    "SONARR_APIKEY": "97e5..."
+}
