@@ -122,6 +122,7 @@ def notifyWithDeletionItens(itensToDeleteList):
     message = "The following itens were deleted from Overseer and Radarr/Sonarr:\\n\\n"
     for item in itensToDeleteList:
         message += f"Type: {item.mediaType}\\n"
+        message += f"Title: {item.title}\\n"
         message += f"ServiceUrl: {item.serviceUrl}\\n"
         message += f"Requested by: {item.requestedby}\\n"
         message += f"CreatedAt: {item.createdAt}\\n"
@@ -140,7 +141,7 @@ def notifyWithDeletionItens(itensToDeleteList):
     webhookCaller.sendWebhook(WEBHOOK,jsonMessage)
 
 def notifyDeletionWarning(itensToDeleteList):
-    message = "The following itens will be deleted from Overseer and Radarr/Sonarr in the next run:\\n\\n"
+    message = "Itens to be deleted in the next run:\\n\\n"
     shouldSendMessage = False
 
     for item in itensToDeleteList:
@@ -149,6 +150,7 @@ def notifyDeletionWarning(itensToDeleteList):
         
         shouldSendMessage = True
         message += f"Type: {item.mediaType}\\n"
+        message += f"Title: {item.title}\\n"
         message += f"ServiceUrl: {item.serviceUrl}\\n"
         message += f"Requested by: {item.requestedby}\\n"
         message += f"CreatedAt: {item.createdAt}\\n"

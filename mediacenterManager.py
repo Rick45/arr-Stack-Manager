@@ -4,6 +4,8 @@ import helpers
 import tautulliAPI
 import overseerrAPI
 import constants
+import radarrAPI
+import sonarrAPI
 import loggerManager
 from pathlib import Path
 import json
@@ -89,13 +91,13 @@ try:
         #    continue
 
         
-        logger.info(f"Type: {media['mediaType']}")
-        logger.info(f"externalServiceSlug: {media['externalServiceSlug']}")
-        logger.info(f"Status: {constants.mediaAvailability[media['status']]}")
-        logger.info(f"serviceUrl: {media['serviceUrl']}")
+        #logger.info(f"Type: {media['mediaType']}")
+        #logger.info(f"externalServiceSlug: {media['externalServiceSlug']}")
+        #logger.info(f"Status: {constants.mediaAvailability[media['status']]}")
+        #logger.info(f"serviceUrl: {media['serviceUrl']}")
         
         if (media['status'] == 2 or media['status'] == 3 ) and media['mediaType'] == 'movie':
-            logger.info(f"Movie: {media['serviceUrl']} not yet available status {constants.mediaAvailability[media['status']]} , skipping")
+            #logger.info(f"Movie: {media['serviceUrl']} not yet available status {constants.mediaAvailability[media['status']]} , skipping")
             continue
         
         obj = type('', (), {})()
@@ -115,6 +117,7 @@ try:
         obj.seasonsInRequest = len(overseerrRequest['seasons'])
         obj.externalServiceSlug = media['externalServiceSlug']
         obj.requestedby = overseerrRequest['requestedBy']['username']
+        obj.title = ''
         if media['mediaType'] == 'tv':
             for season in overseerrRequest['seasons']:
                 #logger.info(f"########")
@@ -124,6 +127,24 @@ try:
                 #logger.info(f"Season status:  {overseerrRequest['requestedBy']['username']}")
                 obj.season = season['seasonNumber']
                 #logger.info(f"########")
+            
+            InfoResponse = sonarrAPI.getShowInfo(obj.tvdbId)
+            if InfoResponse.status_code != 200:        
+                logger.error(f"Error: {InfoResponse.status_code}")
+                logger.error(InfoResponse.text)
+            else:
+                showDataResponse = InfoResponse.json()
+                if len(showDataResponse) != 0:
+                    obj.title = showDataResponse[0]['title']
+        if(media['mediaType'] == 'movie'):
+            InfoResponse = radarrAPI.getMovieInfo(obj.tmdbId)
+            if InfoResponse.status_code != 200:        
+                logger.error(f"Error: {InfoResponse.status_code}")
+                logger.error(InfoResponse.text)
+            else:
+                movieDataResponse = InfoResponse.json()
+                if len(showDataResponse) != 0:
+                    obj.title = showDataResponse[0]['title']
         
         itensToCheck.append(obj)
         #logger.info(f"===================================")
@@ -137,12 +158,13 @@ try:
     for obj in itensToCheck:
         NUMBER_OF_DAYS = int(configJson["NUMBER_OF_DAYS"])
         logger.info(f"===================================")
-        logger.info(f"Checkif For: "+ obj.externalServiceSlug)
+        logger.info(f"Checkif For: "+ obj.title)
+        logger.info(f"externalServiceSlug: "+ obj.externalServiceSlug)
         logger.info(f"requestedby: "+ obj.requestedby)
         logger.info(f"mediaType: "+ obj.mediaType)
         logger.info(f"dateToCheck: "+ obj.dateToCheck)
         logger.info(f"requestedby: "+ obj.requestedby)
-
+        
         whatchedOnlyByRequester = helpers.wasWatchedOnlyByRequester(obj)
         logger.info(f"whatchedOnlyByRequester: {whatchedOnlyByRequester}")
         if whatchedOnlyByRequester:
@@ -173,8 +195,7 @@ try:
         logger.info(f"No Deletions required")
         helpers.sendNotification(f"No Deletions required, see you tomorrow at {cron_config}!")
         exit()
-    if useWebhook:
-        helpers.notifyWithDeletionItens(itensToDelete)
+    
     
     TESTING_MODE = int(configJson["TESTING_MODE"])
     if TESTING_MODE == 1:
@@ -199,6 +220,8 @@ try:
         logger.info(f"-----------------------------------")
 
     logger.info(f"Deletions Executed: {deletionsExecuted}")
+    if useWebhook:
+        helpers.notifyWithDeletionItens(itensToDelete)
     logger.info(f"Media center Purger finished")
         
 except Exception as e:
