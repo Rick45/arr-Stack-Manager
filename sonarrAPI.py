@@ -13,7 +13,7 @@ with open(filepath, 'r') as f:
 def deleteShow(tmdbId):
     SONARR_BASEURL = configJson["SONARR_BASEURL"]
     SONARR_APIKEY = configJson["SONARR_APIKEY"]
-    url = SONARR_BASEURL+"series/"+str(tmdbId)
+    url = SONARR_BASEURL+"series/"+str(tmdbId)+"?deleteFiles=true&addImportListExclusion=false"
     headers = {
         'accept': 'application/json',
         'X-Api-Key': SONARR_APIKEY
