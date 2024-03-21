@@ -1,7 +1,8 @@
 # Arr Stack Media Manager
 
 
-recently i have found a new project that does this but better. feel free to use this script but i advise to check the following repo
+## Maintainerr
+recently i have found this new project that does the same as my script but better. feel free to use this script but i advise to check the following repo
 
 [https://github.com/jorenn92/Maintainerr](https://github.com/jorenn92/Maintainerr).
 
