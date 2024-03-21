@@ -1,5 +1,13 @@
 # Arr Stack Media Manager
 
+
+recently i have found a new project that does this but better. feel free to use this script but i advise to check the following repo
+
+[https://github.com/jorenn92/Maintainerr](https://github.com/jorenn92/Maintainerr).
+
+
+
+
 **Disclaimer:**
 
 **Use at your own risk! This project has the potential to delete data. Please ensure proper backups and take necessary precautions before running any commands. The author and contributors of this project are not responsible for any data loss or damage caused by the usage of this software.**
